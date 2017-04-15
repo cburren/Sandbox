@@ -1,0 +1,8 @@
+.button {
+ -fx-max-width: 1000px;
+ -fx-max-height: 1000px;
+}
+
+.text-field {
+ -fx-alignment: center-right;
+}

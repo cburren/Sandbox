@@ -17,6 +17,9 @@ public class CalculatorView {
 	
 	public TextField anzeige;
 	protected Button digits[] = new Button[10];
+	protected Button btnPlus;
+	protected Button btnClear;
+	protected Button btnEquals;
 	
 	protected CalculatorView(Stage stage, CalculatorModel model) {
 		this.stage = stage;
@@ -25,6 +28,8 @@ public class CalculatorView {
 		stage.setTitle("Calculator");
 		
 		BorderPane root = new BorderPane();
+		anzeige = new TextField();
+		anzeige.setDisable(true);
 		root.setTop(anzeige);
 		GridPane gPane = new GridPane();
 		root.setCenter(gPane);
@@ -42,14 +47,26 @@ public class CalculatorView {
 			gPane.add(digits[i], (i-1) % 3, 2 - (i-1) / 3);
 		}
 		
+		
+		btnPlus = new Button("+");
+		gPane.add(btnPlus, 3, 0);
+		
+		btnClear = new Button("C");
+		gPane.add(btnClear, 3, 1);
+		
+		btnEquals = new Button("=");
+		gPane.add(btnEquals, 3, 2, 1, 2);
+		
+		
+		
 		// Configure grid columns and rows to resize to available space
-				// See "GridPane" in the JavaFX API, section "Percentage Sizing"
-				ColumnConstraints cc = new ColumnConstraints();
-				cc.setPercentWidth(25);
-				gPane.getColumnConstraints().addAll(cc, cc, cc, cc);
-				RowConstraints rc = new RowConstraints();
-				rc.setPercentHeight(25);
-				gPane.getRowConstraints().addAll(rc, rc, rc, rc);
+		// See "GridPane" in the JavaFX API, section "Percentage Sizing"
+		ColumnConstraints cc = new ColumnConstraints();
+		cc.setPercentWidth(25);
+		gPane.getColumnConstraints().addAll(cc, cc, cc, cc);
+		RowConstraints rc = new RowConstraints();
+		rc.setPercentHeight(25);
+		gPane.getRowConstraints().addAll(rc, rc, rc, rc);
 		
 		Label helloWorld = new Label("Hello, World!");
 	
