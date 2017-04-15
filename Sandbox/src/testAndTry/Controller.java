@@ -1,4 +1,4 @@
-package MVC;
+package testAndTry;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

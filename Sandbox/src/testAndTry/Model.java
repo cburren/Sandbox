@@ -1,4 +1,4 @@
-package MVC;
+package testAndTry;
 
 public class Model {
 	private int value;
