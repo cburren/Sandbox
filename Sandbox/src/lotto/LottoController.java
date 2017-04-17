@@ -14,13 +14,14 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.TilePane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Button;
 
 public class LottoController implements Initializable   {
 	
 	@FXML TilePane zahlenPane;
 	@FXML Label choiceAnz;
 	@FXML ProgressBar choiceProgress;
-	
+	@FXML Button btnRandom;
 	
 	//Definition der Spielgrösse
 	private final int MAXNR = 42;
@@ -31,6 +32,7 @@ public class LottoController implements Initializable   {
 	
 	private ToggleButton[] toggleArray = new ToggleButton[MAXNR]; 		// Alle Toggels
 	private ArrayList<Integer> userChoice = new ArrayList<Integer>();	// Auswahl des Spielers
+	
 
 	
 	@Override
@@ -78,7 +80,7 @@ public class LottoController implements Initializable   {
 	
 	public void updateChoiceProgress(){
 		//Fortschirttsbalken und Anzeige aktualisieren 
-		choiceAnz.setText(anzGew+" / "+MAXCHOICE);
+		 choiceAnz.setText(anzGew+" / "+MAXCHOICE);
 		 choiceProgress.setProgress((double)anzGew/MAXCHOICE);
 		 
 		 Collections.sort(userChoice);
@@ -86,10 +88,44 @@ public class LottoController implements Initializable   {
 			 System.out.print(i+"/");
 			 
 		 }
-		 System.out.println();
-		 
-		 
+		 System.out.println(); 
 	};
+	
+	
+	public void generateRandom(){
+		int counter;
+		int random;
+		boolean added;
+		anzGew = 0;
+		userChoice.clear();
+		for(counter = 0;counter<MAXCHOICE;counter++){
+			added = false;
+			while(added==false){
+				random = (int)(Math.random() * MAXNR + 1);
+				if(userChoice.contains(random)==false){
+					userChoice.add(random);
+					added = true;
+				}
+			}
+			
+			
+		}
+		
+		anzGew = MAXCHOICE;
+		updateChoiceProgress();
+		setToggles();
+	}
+	
+	public void setToggles(){
+		for(int i = 0; i<toggleArray.length;i++){
+			toggleArray[i].setSelected(false);
+		}
+		
+		for(int id:userChoice){
+			toggleArray[id-1].setSelected(true);
+		}
+	}
+
 	
 
 }

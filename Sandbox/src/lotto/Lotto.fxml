@@ -24,6 +24,14 @@
                </font>
             </Label>
             <ProgressBar fx:id="choiceProgress" prefWidth="200.0" progress="0.0" />
+            <Button fx:id="btnRandom" mnemonicParsing="false" onAction="#generateRandom" text="Zufällige Zahlen">
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Button>
          </children>
          <BorderPane.margin>
             <Insets />
