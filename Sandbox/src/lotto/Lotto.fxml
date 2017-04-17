@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #af0303;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lotto.LottoController">
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <VBox alignment="TOP_RIGHT" prefHeight="315.0" prefWidth="138.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="choiceAnz" alignment="CENTER" text="1/8" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+            <ProgressBar fx:id="choiceProgress" prefWidth="200.0" progress="0.0" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding></VBox>
+   </left>
+   <top>
+      <Pane prefHeight="85.0" prefWidth="700.0" BorderPane.alignment="CENTER" />
+   </top>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <TilePane fx:id="zahlenPane" alignment="CENTER" focusTraversable="true" maxHeight="700.0" maxWidth="350.0" minHeight="199.0" minWidth="200.0" nodeOrientation="LEFT_TO_RIGHT" prefColumns="6" prefHeight="315.0" prefRows="7" prefTileHeight="45.0" prefTileWidth="45.0" prefWidth="290.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis>
+      </TilePane>
+   </center>
+</BorderPane>

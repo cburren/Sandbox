@@ -1,0 +1,25 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.mytoggle-button:selected {
+    -fx-background-color: #4286f4;
+    -fx-text-fill: #ffffff;
+}
+
+.mytoggle-button {
+    -fx-min-width: 45px;
+    -fx-min-height: 45px;
+}
+
+
+.zahlenToggles {
+    -fx-min-width: 45px;
+    -fx-min-height: 45px;
+    -fx-max-width: 45px;
+    -fx-max-height: 45px;
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+}
+.zahlenToggles:selected {
+   -fx-background-color: #4286f4;
+    -fx-text-fill: #ffffff;
+}
