@@ -53,3 +53,18 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 12px;
 }
+
+.list-view { 
+	-fx-background-color: transparent;
+	-fx-max-width: 200px;
+	-fx-font-size: 12pt;
+	-fx-font-weight: bold;
+}
+
+.list-cell{
+	-fx-alignment: center;
+}
+
+.list-cell:empty{
+	-fx-opacity:0.0;
+}
