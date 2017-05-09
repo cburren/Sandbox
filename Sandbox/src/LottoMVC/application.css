@@ -1,0 +1,55 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+    -fx-background-color:  #af0303;
+}
+
+.mytoggle-button:selected {
+    -fx-background-color: #4286f4;
+    -fx-text-fill: #ffffff;
+}
+
+.mytoggle-button {
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+}
+
+
+.zahlenToggles {
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-padding: 2px;
+}
+.zahlenToggles:selected {
+   -fx-background-color: #4286f4;
+    -fx-text-fill: #ffffff;
+}
+
+
+.tippToggles {
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-padding: 2px;
+}
+.tippToggles:selected {
+   -fx-background-color: #5ec631;
+    -fx-text-fill: #ffffff;
+}
+.tippToggles:disabled {
+	-fx-opacity: 1.0 ;
+}
+
+
+.label{
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 12px;
+}
