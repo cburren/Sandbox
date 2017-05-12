@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -142,6 +143,13 @@ public class LottoController {
 		@Override
 		public void handle(ActionEvent event) {
 			view.lblStatus.setText("");
+			
+			view.bPane.setCenter(view.gpZiehung);
+			view.bPane.setAlignment(view.gpZiehung, Pos.CENTER);
+			
+			for(ArrayList<Integer> list:allTips){
+			 view.addTipButtons(list);
+			}
 			
 		}
 	}

@@ -1,5 +1,7 @@
 package LottoMVC;
 
+import java.util.ArrayList;
+
 import com.sun.prism.paint.Color;
 
 import javafx.geometry.HPos;
@@ -29,6 +31,8 @@ public class LottoView {
 	final int MAXNR = 42;
 	final int MAXZUSATZ = 6;
 	final int MAXCHOICE = 6;
+	int tipWidth = 30*(MAXCHOICE+1);
+	int tipHeight = 30;
 	
 	ToggleButton[] hauptZahlen = new ToggleButton[MAXNR];
 	ToggleButton[] zusatzZahlen = new ToggleButton[MAXZUSATZ];
@@ -64,6 +68,28 @@ public class LottoView {
 	
 	
 	ListView tipList;
+	
+	
+	// ********************** ZIEHUNG **********
+	
+	VBox vbTips;
+	VBox vbZahlen;
+	VBox vbResults;
+	
+	TilePane tip1 = new TilePane();
+	TilePane luckyNumbers = new TilePane();
+	
+	ToggleButton[] tbTip1 = new ToggleButton[MAXCHOICE*2+2];
+	ToggleButton[] tbTip2 = new ToggleButton[MAXCHOICE+1];
+	
+	ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>();
+	ArrayList<Integer> ex = new ArrayList();
+	
+	
+	GridPane gpZiehung;
+	
+	
+	Label winTips;
 	
 	public LottoView(Stage stage, LottoModel model){
 		this.model = model;
@@ -139,6 +165,7 @@ public class LottoView {
 		gpCenter.setConstraints(vbLeft, 0, 1);
 		gpCenter.setConstraints(vbCenter, 1, 1);
 		gpCenter.setConstraints(vbRight,2,1);
+		gpCenter.setMargin(vbRight, new Insets(100, 0, 0, 0));
 		
 		ColumnConstraints col1 = new ColumnConstraints();
 	    col1.setPercentWidth(25);
@@ -150,6 +177,55 @@ public class LottoView {
 	    gpCenter.getColumnConstraints().addAll(col1,col2,col3);
 		
 		gpCenter.getChildren().addAll(vbLeft,vbCenter,vbRight);
+		
+		
+		
+		//**********************************************ZIEHUNG**************************************
+		
+		
+		vbTips = new VBox();
+		vbZahlen = new VBox();
+		vbResults = new VBox();
+		
+		vbTips.setAlignment(Pos.CENTER);
+		vbZahlen.setAlignment(Pos.CENTER);
+		vbResults.setAlignment(Pos.CENTER);
+		
+		tip1.setAlignment(Pos.CENTER);
+		luckyNumbers.setAlignment(Pos.CENTER);
+		
+		
+		
+		gpZiehung = new GridPane();
+		gpZiehung.setAlignment(Pos.CENTER);
+		gpZiehung.setConstraints(vbTips, 0, 1);
+		gpZiehung.setConstraints(vbZahlen, 1, 1);
+		gpZiehung.setConstraints(vbResults,2,1);
+		
+		gpZiehung.getColumnConstraints().addAll(col1,col2,col3);
+		gpZiehung.getChildren().addAll(vbTips, vbZahlen, vbResults);
+		
+		tip1.setMinSize(tipWidth, tipHeight);
+		tip1.setMaxSize(tipWidth, tipHeight);
+		
+		
+		winTips = new Label();
+		winTips.setText("6+1:\t\t1x\t\t1000.-\n"
+				+ "6\t\t1x\t\t456.-\n"
+				+ "5+1\t\t1x\t\t456.-");
+		winTips.setStyle("-fx-font-size: 14px;");
+		
+		vbResults.getChildren().add(winTips);
+		
+		ex.add(15);
+		ex.add(22);
+		ex.add(1);
+		ex.add(-6);
+	
+		vbTips.getChildren().addAll(tip1);
+		vbZahlen.getChildren().add(luckyNumbers);
+		
+		//addTipButtons(ex);
 		
 		
 		bPane.setAlignment(gpCenter, Pos.CENTER);
@@ -188,4 +264,44 @@ public class LottoView {
 	public void stop() {
 		stage.hide();
 	}
+	
+	public void addTipButtons(ArrayList<Integer> list){
+		for (int i = 0; i<list.size(); i++){
+			ToggleButton temp;
+			
+			if(list.get(i).intValue()<0){
+				temp = new ToggleButton("+"+(list.get(i).intValue()*-1));
+				temp.getStyleClass().add("tipButtons");
+				temp.setStyle("-fx-font-weight: bold; -fx-background-color: rgb(253,220,206);");
+			}else{
+			    temp = new ToggleButton(""+(list.get(i).intValue()));
+			    temp.getStyleClass().add("tipButtons");
+			}
+			temp.setId(""+list.get(i).intValue());
+			temp.setDisable(true);
+			buttons.add(temp);
+			tip1.getChildren().add(temp);
+			tip1.setAlignment(Pos.CENTER);
+		}
+		for(int i = 0; i<buttons.size();i++){
+			if(ex.contains(Integer.parseInt(buttons.get(i).getId()))){
+				buttons.get(i).setStyle(null);
+				buttons.get(i).setSelected(true);
+			}
+		}
+		
+		generateLuckyNumbers(ex);
+	}
+	
+	public void generateLuckyNumbers(ArrayList<Integer> list){
+		
+		for(int i:list){
+			ToggleButton temp = new ToggleButton(""+i);
+			temp.getStyleClass().add("luckyNumbers");
+			temp.setDisable(true);
+			luckyNumbers.getChildren().add(temp);
+		}
+		
+	}
+	
 }
