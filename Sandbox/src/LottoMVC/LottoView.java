@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.BoxBlur;
@@ -90,6 +92,8 @@ public class LottoView {
 	
 	
 	Label winTips;
+	TableView results;
+	
 	
 	public LottoView(Stage stage, LottoModel model){
 		this.model = model;
@@ -213,7 +217,7 @@ public class LottoView {
 		winTips.setText("6+1:\t\t1x\t\t1000.-\n"
 				+ "6\t\t1x\t\t456.-\n"
 				+ "5+1\t\t1x\t\t456.-");
-		winTips.setStyle("-fx-font-size: 14px;");
+		winTips.setStyle("-fx-font-size: 16px;");
 		
 		vbResults.getChildren().add(winTips);
 		
