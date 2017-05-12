@@ -2,6 +2,9 @@
 
 .root {
     -fx-background-color:  #af0303;
+    -fx-background-image:url("../media/d.jpg"); 
+    -fx-background-position:bottom;
+     -fx-background-size:cover;
 }
 
 .mytoggle-button:selected {
@@ -52,17 +55,20 @@
 	-fx-text-fill: white;
 	-fx-font-weight: bold;
 	-fx-font-size: 12px;
+	-fx-effect:dropshadow(three-pass-box, black, 30, 0.01, 0, 0); 
 }
 
 .list-view { 
 	-fx-background-color: transparent;
 	-fx-max-width: 200px;
-	-fx-font-size: 12pt;
+	-fx-min-width: 200px;
+	-fx-font-size: 10.5pt;
 	-fx-font-weight: bold;
+	-fx-effect:dropshadow(three-pass-box, grey, 30, 0.0001, 0, 0); 
 }
 
 .list-cell{
-	-fx-alignment: center;
+	-fx-alignment:center-right;
 }
 
 .list-cell:empty{

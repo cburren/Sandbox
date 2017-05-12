@@ -10,7 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 public class LottoController {
 	final private LottoModel model;
@@ -38,6 +43,33 @@ public class LottoController {
 		view.btnTipp.setOnAction(new addTip());
 		view.btnZiehung.setOnAction(new startZiehung());
 		view.btnRemoveTip.setOnAction(new removeTip());
+		
+		view.tipList.setCellFactory(new Callback<ListView<ArrayList>, ListCell<ArrayList>>() {
+
+            @Override
+            public ListCell<ArrayList> call(ListView<ArrayList> param) {
+                ListCell<ArrayList> cell = new ListCell<ArrayList>() {
+
+                    @Override
+                    protected void updateItem(ArrayList item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                        	String temp = "";
+                   
+                        	for(int i = 1;i<item.size();i++){
+                        		temp += item.get(i)+", ";
+                        	}
+                        	temp += "   +"+(Integer)item.get(0)*-1;
+                            setText(temp);
+                         
+                        } else {
+                            setText("");
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
 	}
 	
 	
@@ -48,6 +80,7 @@ public class LottoController {
 
 		@Override
 		public void handle(ActionEvent event) {
+			view.lblStatus.setText("");
 			 ToggleButton sourceButton = (ToggleButton) event.getSource();
 			 Boolean sourceSelected = sourceButton.isSelected();
 			 
@@ -75,6 +108,7 @@ public class LottoController {
 	public class clickerZusatz implements EventHandler<ActionEvent>{
 		@Override
 		public void handle(ActionEvent event) {
+			view.lblStatus.setText("");
 			if(view.tGroup.getSelectedToggle() == null)
 				zusatzChoice = false;
 			else
@@ -86,6 +120,8 @@ public class LottoController {
 	public class addTip implements EventHandler<ActionEvent>{
 		@Override
 		public void handle(ActionEvent event) {
+			view.lblStatus.setText("");
+			
 			if(anzGew >= view.MAXCHOICE){
 				ToggleButton selectedZusatz = (ToggleButton) view.tGroup.getSelectedToggle();
 				userChoice.add(Integer.parseInt(selectedZusatz.getText())*-1);
@@ -105,6 +141,7 @@ public class LottoController {
 	public class startZiehung implements EventHandler<ActionEvent>{
 		@Override
 		public void handle(ActionEvent event) {
+			view.lblStatus.setText("");
 			
 		}
 	}
@@ -112,11 +149,16 @@ public class LottoController {
 	public class removeTip implements EventHandler<ActionEvent>{
 		@Override
 		public void handle(ActionEvent event) {
+			view.lblStatus.setText("");
+			
+			if(view.tipList.getSelectionModel().getSelectedItem() != null){
 			allTips.remove(view.tipList.getSelectionModel().getSelectedItem());
 			view.tipList.setItems(allTips);
-			
 			anzTips--;
 			updateChoiceProgress();
+			}else{
+				view.lblStatus.setText("Bitte Tipp auswählen");
+			}
 			
 			for(ArrayList<Integer> i : allTips){
 				for(int y : i){
@@ -133,6 +175,8 @@ public class LottoController {
 
 		@Override
 		public void handle(ActionEvent event) {
+			view.lblStatus.setText("");
+			
 			//Zufällige Hauptzahlen generieren
 			int random;
 			boolean added;
@@ -164,12 +208,29 @@ public class LottoController {
 	public void updateChoiceProgress(){
 		//Auswahl sortieren und Anzeige aktualisieren
 		Collections.sort(userChoice); 
+		
+		//Infoseite
 		 if(zusatzChoice)
 			 view.lblOutOf.setText((anzGew+1)+" / "+(view.MAXCHOICE+1));
 		 else
 			 view.lblOutOf.setText((anzGew)+" / "+(view.MAXCHOICE+1));
 		 
 		 view.lblTips.setText(""+anzTips);
+		 
+		 //Tip Button
+		 if(anzGew <view.MAXCHOICE || zusatzChoice == false)
+			 view.btnTipp.setDisable(true);
+		 else
+			 view.btnTipp.setDisable(false);
+		 //Remove Tip & Ziehung starten Button
+		 if(anzTips>0){
+			 view.btnRemoveTip.setVisible(true);
+			 view.btnZiehung.setDisable(false);
+		 }else{
+			 view.btnRemoveTip.setVisible(false);
+			 view.btnZiehung.setDisable(true);
+		 }
+			 
 	}
 	
 	

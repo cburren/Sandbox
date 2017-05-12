@@ -1,6 +1,9 @@
 package LottoMVC;
 
+import com.sun.prism.paint.Color;
+
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -54,12 +60,15 @@ public class LottoView {
 	
 	HBox buttonBox;
 	
+	public Effect myEffect;
+	
 	
 	ListView tipList;
 	
 	public LottoView(Stage stage, LottoModel model){
 		this.model = model;
 		this.stage = stage;
+	    myEffect = new BoxBlur(10, 10, 3);
 		
 		bPane = new BorderPane();
 		
@@ -85,6 +94,9 @@ public class LottoView {
 		btnRandom = new Button("Zufällig");
 		btnTipp = new Button("Tipp abgeben");
 		btnZiehung = new Button ("Ziehung starten");
+		btnTipp.setDisable(true);
+		btnZiehung.setDisable(true);
+		
 		
 		buttonBox.getChildren().addAll(btnRandom, btnTipp, btnZiehung);
 		
@@ -116,8 +128,10 @@ public class LottoView {
 		vbRight = new VBox();
 		vbRight.setAlignment(Pos.CENTER);
 		tipList = new ListView();
+		vbRight.setSpacing(40);
 		btnRemoveTip = new Button("Tipp entfernen");
-		vbRight.getChildren().addAll(tipList, btnRemoveTip);
+		btnRemoveTip.setVisible(false);
+		vbRight.getChildren().addAll(btnRemoveTip,tipList);
 		
 		
 		gpCenter = new GridPane();
@@ -158,11 +172,13 @@ public class LottoView {
 			zusatzZahlen[i].setToggleGroup(tGroup);
 		}
 		
-		Scene scene = new Scene(bPane, 800, 500);
+		Scene scene = new Scene(bPane, 850, 500);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		stage.setScene(scene);
 		stage.setTitle("Lotto");
+		stage.getIcons().add(new Image("media/kleeblatt_icon.png"));
+
 	}
 	
 	public void start() {
