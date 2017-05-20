@@ -1,5 +1,6 @@
 package LottoMVC;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import com.sun.prism.paint.Color;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.BoxBlur;
@@ -80,6 +82,9 @@ public class LottoView {
 	VBox vbResults;
 	HBox hbWin;
 	
+	Button btnNew;
+	
+	
 	TilePane tip1 = new TilePane();
 	TilePane luckyNumbers = new TilePane();
 	
@@ -93,6 +98,7 @@ public class LottoView {
 	
 	
 	Label winTips;
+	Label lblwinSum;
 	VBox vbwinRichtige;
 	VBox vbwinAnzahl;
 	VBox vbwinGewinn;
@@ -101,8 +107,27 @@ public class LottoView {
 	
 	//**********WELCOME******
 	
-	Button btnNext;
+	HBox hbTop;
+	Label lblTitle;
+	
+	
+	ToggleButton btnEnglish;
+	ToggleButton btnDeutsch;
+	ToggleButton btnFranz;
+	ToggleGroup tgSprachen;
 	HBox hbBottom;
+	
+	
+	// WELCOME CENTER
+	VBox vbWelcome;
+	HBox hbWelcomeStats;
+	VBox vbStatsAnz;
+	VBox vbStatsWahr;
+	VBox vbStatsGewinn;
+	
+	
+	Button btnNext;
+	
 	
 	
 	public LottoView(Stage stage, LottoModel model){
@@ -114,14 +139,85 @@ public class LottoView {
 		
 		//**********************WELCOME****************************
 		hbBottom = new HBox();
+		btnEnglish = new ToggleButton("English");
+		btnDeutsch = new ToggleButton("Deutsch");
+		btnFranz = new ToggleButton("Francais");
+		tgSprachen = new ToggleGroup();
+		btnEnglish.setToggleGroup(tgSprachen);
+		btnDeutsch.setToggleGroup(tgSprachen);
+		btnFranz.setToggleGroup(tgSprachen);
+		
+		
+		hbBottom.getChildren().addAll(btnEnglish, btnDeutsch, btnFranz);
+		hbBottom.setMinHeight(50);
+		hbBottom.setAlignment(Pos.TOP_LEFT);
+		hbBottom.setPadding(new Insets(10, 50, 50, 50));
+		hbBottom.setSpacing(5);
+		hbBottom.setStyle("-fx-border-color: green");
+		
+		hbTop = new HBox();
+		lblTitle = new Label("Spielinformationen");
+		lblTitle.setStyle("-fx-font-size: 24px;");
+		
+		hbTop.getChildren().add(lblTitle);
+		hbTop.setMinHeight(100);
+		hbTop.setAlignment(Pos.CENTER);
+		hbTop.setPadding(new Insets(50, 50, 10, 50));
+		hbTop.setStyle("-fx-border-color: green");
+		
+		
+		// **************************** WELCOME STATS *************************
+		
+		vbWelcome = new VBox();
+		hbWelcomeStats = new HBox();
+		vbStatsAnz = new VBox();
+		vbStatsWahr = new VBox();
+		vbStatsGewinn = new VBox();
+		
+		
+		
 		btnNext = new Button("Weiter");
 		
-		hbBottom.getChildren().add(btnNext);
-		hbBottom.setMinHeight(50);
-		hbBottom.setAlignment(Pos.TOP_RIGHT);
-		hbBottom.setPadding(new Insets(15, 12, 15, 12));
+		
+		hbWelcomeStats.setAlignment(Pos.CENTER);
+		hbWelcomeStats.setSpacing(30);
+		vbStatsAnz.setAlignment(Pos.CENTER_LEFT);
+		vbStatsWahr.setAlignment(Pos.CENTER_LEFT);
+		vbStatsGewinn.setAlignment(Pos.CENTER_RIGHT);
+		vbWelcome.setAlignment(Pos.CENTER);
+		vbWelcome.setSpacing(15);
 		
 		
+		Label anzTitel = new Label("Anzahl Richtige");
+		Label wahrTitel = new Label("Wahrscheinlichkeit");
+		Label winTitel = new Label("Gewinn");
+		
+		vbStatsAnz.getChildren().add(anzTitel);
+		vbStatsWahr.getChildren().add(wahrTitel);
+		vbStatsGewinn.getChildren().add(winTitel);
+		
+		
+		for(int i = model.MAXCHOICE;0<=i;i--){
+			Label temp = new Label(i+"+1:");
+			Label temp2 = new Label(i+":");
+			
+			vbStatsAnz.getChildren().addAll(temp,temp2);
+			
+			Label wahr = new Label("1 : "+model.wahr[i*2+1]);
+			Label wahr1 = new Label("1 : "+model.wahr[i*2]);
+	
+			
+			vbStatsWahr.getChildren().addAll(wahr,wahr1);
+			
+			Label win = new Label(model.gewinne[i*2+1]+".-");
+			Label win1 = new Label(model.gewinne[i*2]+".-");
+			
+			vbStatsGewinn.getChildren().addAll(win, win1);
+			
+		}
+		
+		hbWelcomeStats.getChildren().addAll(vbStatsAnz,vbStatsWahr, vbStatsGewinn);
+		vbWelcome.getChildren().addAll(hbWelcomeStats,btnNext);
 		
 		
 		// ************************** MITTE  ******************************
@@ -156,6 +252,7 @@ public class LottoView {
 		
 		
 		vbCenter.getChildren().addAll(tPane, tPaneZusatz, buttonBox,lblStatus);
+		vbCenter.setStyle("-fx-border-color: green");
 		
 		//********************** LINKS ************************
 		
@@ -191,7 +288,8 @@ public class LottoView {
 		gpCenter.setConstraints(vbLeft, 0, 1);
 		gpCenter.setConstraints(vbCenter, 1, 1);
 		gpCenter.setConstraints(vbRight,2,1);
-		gpCenter.setMargin(vbRight, new Insets(100, 0, 0, 0));
+		gpCenter.setMargin(vbRight, new Insets(25, 0, 0, 0));
+		gpCenter.setStyle("-fx-border-color: green");
 		
 		ColumnConstraints col1 = new ColumnConstraints();
 	    col1.setPercentWidth(25);
@@ -215,6 +313,7 @@ public class LottoView {
 		
 		vbTips.setAlignment(Pos.CENTER);
 		vbZahlen.setAlignment(Pos.CENTER);
+		vbZahlen.setSpacing(50);
 		vbResults.setAlignment(Pos.CENTER);
 		
 		tip1.setAlignment(Pos.CENTER);
@@ -241,22 +340,25 @@ public class LottoView {
 		vbwinAnzahl.setAlignment(Pos.CENTER);
 		vbwinGewinn.setAlignment(Pos.CENTER_RIGHT);
 		hbWin.setAlignment(Pos.CENTER);
-		hbWin.setSpacing(50);
+		hbWin.setSpacing(15);
 		
-		Label winSum = new Label("2500.- CHF gewonnen!");
+		lblwinSum = new Label();
+		lblwinSum.setStyle("-fx-font-size: 24px;");
 		
 		
 		hbWin.getChildren().addAll(vbwinRichtige,vbwinAnzahl,vbwinGewinn);
-		vbResults.getChildren().addAll(hbWin, winSum);
+		vbResults.getChildren().add(hbWin);
 		
+		btnNew = new Button("Neue Runde");
 		
 		vbTips.getChildren().addAll(tip1);
-		vbZahlen.getChildren().add(luckyNumbers);
+		vbZahlen.getChildren().addAll(luckyNumbers,lblwinSum);
 		
 		
-		bPane.setAlignment(gpCenter, Pos.CENTER);
-		bPane.setCenter(gpCenter);
+		bPane.setAlignment(vbWelcome, Pos.CENTER);
+		bPane.setCenter(vbWelcome);
 		bPane.setBottom(hbBottom);
+		bPane.setTop(hbTop);
 		
 		for (int i = 0; i < MAXNR; i++){
 			//Feld zum Auswählen der Zahlen instanzieren
@@ -341,6 +443,15 @@ public class LottoView {
 	
 	public void showWinResults(){
 		
+		Label anzTitel = new Label("Richtige");
+		Label wahrTitel = new Label("Anzahl");
+		Label winTitel = new Label("Gewinn");
+		
+		vbwinRichtige.getChildren().add(anzTitel);
+		vbwinAnzahl.getChildren().add(wahrTitel);
+		vbwinGewinn.getChildren().add(winTitel);
+		
+		
 		for(int i = model.MAXCHOICE;model.MINRICHTIGE<=i;i--){
 			Label temp = new Label(i+"+1:");
 			Label temp2 = new Label(i+":");
@@ -352,13 +463,17 @@ public class LottoView {
 			
 			vbwinAnzahl.getChildren().addAll(anz, anz1);
 			
+			int tipgewinn = model.gewinne[i*2+1]*model.treffer[(i)*2+1];
+			int tipgewinn1 = model.gewinne[i*2]*model.treffer[(i)*2];
+			
 			Label win = new Label(model.gewinne[i*2+1]*model.treffer[(i)*2+1]+".-");
 			Label win1 = new Label(model.gewinne[i*2]*model.treffer[(i)*2]+".-");
 			
+			model.gewinn += tipgewinn+tipgewinn1;
 			vbwinGewinn.getChildren().addAll(win, win1);
-			
-			
 		}
+		
+		lblwinSum.setText(model.gewinn+".- gewonnen!");
 	}
 	
 }

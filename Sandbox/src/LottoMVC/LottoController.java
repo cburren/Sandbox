@@ -44,6 +44,8 @@ public class LottoController {
 		view.btnTipp.setOnAction(new addTip());
 		view.btnZiehung.setOnAction(new startZiehung());
 		view.btnRemoveTip.setOnAction(new removeTip());
+		view.btnNext.setOnAction(new StartChoice());
+		view.btnNew.setOnAction(new StartChoice());
 		
 		view.tipList.setCellFactory(new Callback<ListView<ArrayList>, ListCell<ArrayList>>() {
 
@@ -143,9 +145,13 @@ public class LottoController {
 		@Override
 		public void handle(ActionEvent event) {
 			view.lblStatus.setText("");
+			view.lblTitle.setText("Resultate");
+			
 			
 			view.bPane.setCenter(view.gpZiehung);
 			view.bPane.setAlignment(view.gpZiehung, Pos.CENTER);
+			
+			
 			
 			for(ArrayList<Integer> list:allTips){
 			 view.addTipButtons(list);
@@ -212,6 +218,21 @@ public class LottoController {
 			zusatzChoice = true;
 			updateChoiceProgress();
 			updateButtonState();
+			
+		}
+		
+	}
+	
+	public class StartChoice implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent arg0) {
+			view.lblTitle.setText("Auswahl");
+			
+			view.bPane.setCenter(view.gpCenter);
+			anzGew = 0;
+			userChoice.clear();
+			allTips.clear();
 			
 		}
 		

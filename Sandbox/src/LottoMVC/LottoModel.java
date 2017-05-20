@@ -1,24 +1,35 @@
 package LottoMVC;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 
 public class LottoModel {
 	
-	public ArrayList<Integer> luckyNumbers;
+	
 	final int MAXNR = 42;
 	final int MAXZUSATZ = 6;
 	final int MAXCHOICE = 6;
 	final int MINRICHTIGE = 0;
+	final int tipPrice = 15;
 	
+	public int konto = 0;
+	
+	public int gewinn = 0;
+	
+	public ArrayList<Integer> luckyNumbers;
 	Integer[] treffer;
 	Integer[] gewinne;
+	BigInteger[] wahr;
 	
 	
 	public LottoModel(){
 		luckyNumbers = new ArrayList<Integer>();
+		wahr = new BigInteger[(MAXCHOICE+1)*2];
+		calcWahr();
 		treffer = new Integer[(MAXCHOICE+1)*2];
 		gewinne = new Integer[(MAXCHOICE+1)*2];
 		for(int i = 0; i < treffer.length; i++) {
@@ -76,6 +87,40 @@ public class LottoModel {
 			 
 		}
 		
+		
+	}
+	
+	public BigInteger calulateFak(int anz){
+		
+		BigInteger result = new BigInteger("1");
+		BigInteger temp = new BigInteger("1");
+		
+		for(int i = 1; i<=anz;i++){
+			temp = temp.valueOf(i);
+			result = result.multiply(temp);
+		}
+		return result;
+		
+	}
+	
+	public void calcWahr(){
+		for(int i = 0; i<=MAXCHOICE; i++){
+			
+			//= 49! : (6! * (49-6)!) 
+			BigInteger fakCHOICE = new BigInteger(""+calulateFak(i));
+			BigInteger fakMAXNR = new BigInteger(""+calulateFak(MAXNR));
+			BigInteger fakSub = new BigInteger(""+calulateFak(MAXNR-i));
+			BigInteger var2 = new BigInteger(""+fakCHOICE.multiply(fakSub));
+	
+			BigInteger wahrAll = new BigInteger(""+fakMAXNR.divide(var2));
+			
+			BigInteger tempInt = new BigInteger(""+MAXZUSATZ);
+			
+			BigInteger wahrZusatz = new BigInteger(""+wahrAll.multiply(tempInt));
+			
+			wahr[i*2] = wahrAll;
+			wahr[i*2+1] = wahrZusatz;	
+		}
 		
 	}
 	
