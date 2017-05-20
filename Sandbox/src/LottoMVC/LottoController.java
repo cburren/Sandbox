@@ -150,6 +150,10 @@ public class LottoController {
 			for(ArrayList<Integer> list:allTips){
 			 view.addTipButtons(list);
 			}
+			model.generateLuckyNumbers();
+			view.showLuckyNumbers(model.luckyNumbers);
+			model.compareNumbers(allTips);
+			view.showWinResults();
 			
 		}
 	}

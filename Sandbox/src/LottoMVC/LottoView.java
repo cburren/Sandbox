@@ -7,6 +7,7 @@ import com.sun.prism.paint.Color;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -77,6 +78,7 @@ public class LottoView {
 	VBox vbTips;
 	VBox vbZahlen;
 	VBox vbResults;
+	HBox hbWin;
 	
 	TilePane tip1 = new TilePane();
 	TilePane luckyNumbers = new TilePane();
@@ -84,15 +86,23 @@ public class LottoView {
 	ToggleButton[] tbTip1 = new ToggleButton[MAXCHOICE*2+2];
 	ToggleButton[] tbTip2 = new ToggleButton[MAXCHOICE+1];
 	
-	ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>();
-	ArrayList<Integer> ex = new ArrayList();
+	ArrayList<ToggleButton> tipButtons = new ArrayList<ToggleButton>();
 	
 	
 	GridPane gpZiehung;
 	
 	
 	Label winTips;
-	TableView results;
+	VBox vbwinRichtige;
+	VBox vbwinAnzahl;
+	VBox vbwinGewinn;
+	
+	
+	
+	//**********WELCOME******
+	
+	Button btnNext;
+	HBox hbBottom;
 	
 	
 	public LottoView(Stage stage, LottoModel model){
@@ -101,6 +111,18 @@ public class LottoView {
 	    myEffect = new BoxBlur(10, 10, 3);
 		
 		bPane = new BorderPane();
+		
+		//**********************WELCOME****************************
+		hbBottom = new HBox();
+		btnNext = new Button("Weiter");
+		
+		hbBottom.getChildren().add(btnNext);
+		hbBottom.setMinHeight(50);
+		hbBottom.setAlignment(Pos.TOP_RIGHT);
+		hbBottom.setPadding(new Insets(15, 12, 15, 12));
+		
+		
+		
 		
 		// ************************** MITTE  ******************************
 		
@@ -212,28 +234,29 @@ public class LottoView {
 		tip1.setMinSize(tipWidth, tipHeight);
 		tip1.setMaxSize(tipWidth, tipHeight);
 		
+		hbWin = new HBox();
+		vbwinRichtige = new VBox();
+		vbwinAnzahl = new VBox();
+		vbwinGewinn = new VBox();
+		vbwinAnzahl.setAlignment(Pos.CENTER);
+		vbwinGewinn.setAlignment(Pos.CENTER_RIGHT);
+		hbWin.setAlignment(Pos.CENTER);
+		hbWin.setSpacing(50);
 		
-		winTips = new Label();
-		winTips.setText("6+1:\t\t1x\t\t1000.-\n"
-				+ "6\t\t1x\t\t456.-\n"
-				+ "5+1\t\t1x\t\t456.-");
-		winTips.setStyle("-fx-font-size: 16px;");
+		Label winSum = new Label("2500.- CHF gewonnen!");
 		
-		vbResults.getChildren().add(winTips);
 		
-		ex.add(15);
-		ex.add(22);
-		ex.add(1);
-		ex.add(-6);
-	
+		hbWin.getChildren().addAll(vbwinRichtige,vbwinAnzahl,vbwinGewinn);
+		vbResults.getChildren().addAll(hbWin, winSum);
+		
+		
 		vbTips.getChildren().addAll(tip1);
 		vbZahlen.getChildren().add(luckyNumbers);
-		
-		//addTipButtons(ex);
 		
 		
 		bPane.setAlignment(gpCenter, Pos.CENTER);
 		bPane.setCenter(gpCenter);
+		bPane.setBottom(hbBottom);
 		
 		for (int i = 0; i < MAXNR; i++){
 			//Feld zum Auswählen der Zahlen instanzieren
@@ -252,8 +275,9 @@ public class LottoView {
 			zusatzZahlen[i].setToggleGroup(tGroup);
 		}
 		
-		Scene scene = new Scene(bPane, 850, 500);
+		Scene scene = new Scene(bPane, 950, 600);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
 		
 		stage.setScene(scene);
 		stage.setTitle("Lotto");
@@ -283,29 +307,58 @@ public class LottoView {
 			}
 			temp.setId(""+list.get(i).intValue());
 			temp.setDisable(true);
-			buttons.add(temp);
+			tipButtons.add(temp);
 			tip1.getChildren().add(temp);
 			tip1.setAlignment(Pos.CENTER);
 		}
-		for(int i = 0; i<buttons.size();i++){
-			if(ex.contains(Integer.parseInt(buttons.get(i).getId()))){
-				buttons.get(i).setStyle(null);
-				buttons.get(i).setSelected(true);
-			}
-		}
 		
-		generateLuckyNumbers(ex);
 	}
 	
-	public void generateLuckyNumbers(ArrayList<Integer> list){
+	public void showLuckyNumbers(ArrayList<Integer> list){
 		
 		for(int i:list){
-			ToggleButton temp = new ToggleButton(""+i);
-			temp.getStyleClass().add("luckyNumbers");
+			ToggleButton temp;
+			if(i <0){
+				temp = new ToggleButton("+"+(i*-1));
+				temp.getStyleClass().add("luckyNumbers");
+				temp.setStyle("-fx-font-weight: bold; -fx-background-color: rgb(251,255,70);");
+			}else{
+			    temp = new ToggleButton(""+(i));
+			    temp.getStyleClass().add("luckyNumbers");
+			}
 			temp.setDisable(true);
 			luckyNumbers.getChildren().add(temp);
 		}
 		
+		for(int i = 0; i<tipButtons.size();i++){
+			if(model.luckyNumbers.contains(Integer.parseInt(tipButtons.get(i).getId()))){
+				tipButtons.get(i).setStyle(null);
+				tipButtons.get(i).setSelected(true);
+			}
+		}
+		
+	}
+	
+	public void showWinResults(){
+		
+		for(int i = model.MAXCHOICE;model.MINRICHTIGE<=i;i--){
+			Label temp = new Label(i+"+1:");
+			Label temp2 = new Label(i+":");
+			
+			vbwinRichtige.getChildren().addAll(temp,temp2);
+			
+			Label anz = new Label(model.treffer[(i)*2+1]+" x");
+			Label anz1 = new Label(model.treffer[(i)*2]+" x");
+			
+			vbwinAnzahl.getChildren().addAll(anz, anz1);
+			
+			Label win = new Label(model.gewinne[i*2+1]*model.treffer[(i)*2+1]+".-");
+			Label win1 = new Label(model.gewinne[i*2]*model.treffer[(i)*2]+".-");
+			
+			vbwinGewinn.getChildren().addAll(win, win1);
+			
+			
+		}
 	}
 	
 }
