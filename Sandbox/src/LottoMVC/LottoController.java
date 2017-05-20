@@ -132,12 +132,13 @@ public class LottoController {
 				allTips.add((ArrayList<Integer>) userChoice.clone());
 				view.tipList.setItems(allTips);
 				anzTips++;
-				System.out.println(view.tipList.getItems());
+				//System.out.println(view.tipList.getItems());
 				resetTipField();
 			}else{
 				view.lblStatus.setText("Noch nicht alle zahlen gewählt");
 			}
-		    
+		    model.bet += model.tipPrice;
+		    updateChoiceProgress();
 		}
 	}
 	
@@ -175,17 +176,10 @@ public class LottoController {
 			anzTips--;
 			updateChoiceProgress();
 			}else{
-				view.lblStatus.setText("Bitte Tipp auswählen");
+				view.lblStatus.setText("Bitte Tipp auswählen!");
 			}
+			model.bet -= model.tipPrice;
 			
-			for(ArrayList<Integer> i : allTips){
-				for(int y : i){
-					System.out.print(y+"/");
-				}
-				System.out.println();
-				 
-			 }
-			System.out.println("--------------");
 		}
 	}	
 	
@@ -227,6 +221,7 @@ public class LottoController {
 
 		@Override
 		public void handle(ActionEvent arg0) {
+			view.lblStatus.setText("");
 			view.lblTitle.setText("Auswahl");
 			
 			view.bPane.setCenter(view.gpCenter);
@@ -249,6 +244,7 @@ public class LottoController {
 			 view.lblOutOf.setText((anzGew)+" / "+(view.MAXCHOICE+1));
 		 
 		 view.lblTips.setText(""+anzTips);
+		 view.lblMoney.setText(model.bet+".- CHF");
 		 
 		 //Tip Button
 		 if(anzGew <view.MAXCHOICE || zusatzChoice == false)

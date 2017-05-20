@@ -10,13 +10,13 @@ import javafx.scene.control.Label;
 public class LottoModel {
 	
 	
-	final int MAXNR = 42;
+	final int MAXNR = 35;
 	final int MAXZUSATZ = 6;
 	final int MAXCHOICE = 6;
 	final int MINRICHTIGE = 0;
 	final int tipPrice = 15;
 	
-	public int konto = 0;
+	public int bet = 0;
 	
 	public int gewinn = 0;
 	
@@ -36,8 +36,7 @@ public class LottoModel {
             treffer[i] = new Integer(0);
         }
 		for(int i = 0; i < gewinne.length; i++) {
-            gewinne[i] = new Integer((int) Math.pow(i, 3));
-            System.out.println(gewinne[i]);
+            gewinne[i] = new Integer((int) Math.pow(i, 5)*i/10/gewinne.length);
         }
 		
 	}

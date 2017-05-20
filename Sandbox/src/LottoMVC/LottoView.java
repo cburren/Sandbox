@@ -27,13 +27,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class LottoView {
 	final private LottoModel model;
 	final private Stage stage;
 	
-	final int MAXNR = 42;
+	final int MAXNR = 35;
 	final int MAXZUSATZ = 6;
 	final int MAXCHOICE = 6;
 	int tipWidth = 30*(MAXCHOICE+1);
@@ -98,6 +99,7 @@ public class LottoView {
 	
 	
 	Label winTips;
+	Label lblwinCalc;
 	Label lblwinSum;
 	VBox vbwinRichtige;
 	VBox vbwinAnzahl;
@@ -153,7 +155,7 @@ public class LottoView {
 		hbBottom.setAlignment(Pos.TOP_LEFT);
 		hbBottom.setPadding(new Insets(10, 50, 50, 50));
 		hbBottom.setSpacing(5);
-		hbBottom.setStyle("-fx-border-color: green");
+		//hbBottom.setStyle("-fx-border-color: green");
 		
 		hbTop = new HBox();
 		lblTitle = new Label("Spielinformationen");
@@ -163,7 +165,7 @@ public class LottoView {
 		hbTop.setMinHeight(100);
 		hbTop.setAlignment(Pos.CENTER);
 		hbTop.setPadding(new Insets(50, 50, 10, 50));
-		hbTop.setStyle("-fx-border-color: green");
+		//hbTop.setStyle("-fx-border-color: green");
 		
 		
 		// **************************** WELCOME STATS *************************
@@ -252,7 +254,7 @@ public class LottoView {
 		
 		
 		vbCenter.getChildren().addAll(tPane, tPaneZusatz, buttonBox,lblStatus);
-		vbCenter.setStyle("-fx-border-color: green");
+		//vbCenter.setStyle("-fx-border-color: green");
 		
 		//********************** LINKS ************************
 		
@@ -262,8 +264,8 @@ public class LottoView {
 		lblOutOfText = new Label("Zahlen gewählt:");
 		lblTips = new Label ("0");
 		lblTipsText = new Label ("Gesetzte Tipps:");
-		lblMoney = new Label ("2500.- CHF");
-		lblMoneyText = new Label ("Kontostand:");
+		lblMoney = new Label (model.bet+".- CHF");
+		lblMoneyText = new Label ("Einsatz:");
 		
 		
 		lblOutOf.setStyle("-fx-font-size: 22px;");
@@ -288,8 +290,8 @@ public class LottoView {
 		gpCenter.setConstraints(vbLeft, 0, 1);
 		gpCenter.setConstraints(vbCenter, 1, 1);
 		gpCenter.setConstraints(vbRight,2,1);
-		gpCenter.setMargin(vbRight, new Insets(25, 0, 0, 0));
-		gpCenter.setStyle("-fx-border-color: green");
+		//gpCenter.setMargin(vbRight, new Insets(0, 0, 0, 0));
+		//gpCenter.setStyle("-fx-border-color: green");
 		
 		ColumnConstraints col1 = new ColumnConstraints();
 	    col1.setPercentWidth(25);
@@ -342,7 +344,9 @@ public class LottoView {
 		hbWin.setAlignment(Pos.CENTER);
 		hbWin.setSpacing(15);
 		
+		lblwinCalc = new Label();
 		lblwinSum = new Label();
+		lblwinCalc.setStyle("-fx-font-size: 16px;");
 		lblwinSum.setStyle("-fx-font-size: 24px;");
 		
 		
@@ -352,7 +356,7 @@ public class LottoView {
 		btnNew = new Button("Neue Runde");
 		
 		vbTips.getChildren().addAll(tip1);
-		vbZahlen.getChildren().addAll(luckyNumbers,lblwinSum);
+		vbZahlen.getChildren().addAll(luckyNumbers,lblwinCalc, lblwinSum);
 		
 		
 		bPane.setAlignment(vbWelcome, Pos.CENTER);
@@ -473,7 +477,13 @@ public class LottoView {
 			vbwinGewinn.getChildren().addAll(win, win1);
 		}
 		
-		lblwinSum.setText(model.gewinn+".- gewonnen!");
+		lblwinCalc.setText(""+model.gewinn+".- CHF Gewinn\n- "+model.bet+".- CHF Einsatz");
+		lblwinCalc.setTextAlignment(TextAlignment.RIGHT);
+		if(model.gewinn<model.bet)
+			lblwinSum.setStyle("-fx-background-color: rgb(255,83,83); -fx-font-size: 24px;");
+		else
+			lblwinSum.setStyle("-fx-background-color: rgb(113,225,0); -fx-font-size: 24px;");
+		lblwinSum.setText(" " +(model.gewinn-model.bet)+".- CHF ");
 	}
 	
 }
