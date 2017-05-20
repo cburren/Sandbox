@@ -15,6 +15,7 @@ public class LottoModel {
 	final int MAXCHOICE = 6;
 	final int MINRICHTIGE = 0;
 	final int tipPrice = 15;
+	final int MAXTIP = 10;
 	
 	public int bet = 0;
 	
@@ -25,7 +26,7 @@ public class LottoModel {
 	Integer[] gewinne;
 	BigInteger[] wahr;
 	
-	
+
 	public LottoModel(){
 		luckyNumbers = new ArrayList<Integer>();
 		wahr = new BigInteger[(MAXCHOICE+1)*2];

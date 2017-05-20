@@ -124,20 +124,24 @@ public class LottoController {
 		@Override
 		public void handle(ActionEvent event) {
 			view.lblStatus.setText("");
-			
-			if(anzGew >= view.MAXCHOICE){
-				ToggleButton selectedZusatz = (ToggleButton) view.tGroup.getSelectedToggle();
-				userChoice.add(Integer.parseInt(selectedZusatz.getText())*-1);
-				Collections.sort(userChoice);
-				allTips.add((ArrayList<Integer>) userChoice.clone());
-				view.tipList.setItems(allTips);
-				anzTips++;
-				//System.out.println(view.tipList.getItems());
-				resetTipField();
+			if(anzTips<model.MAXTIP){
+				
+				if(anzGew >= view.MAXCHOICE){
+					ToggleButton selectedZusatz = (ToggleButton) view.tGroup.getSelectedToggle();
+					userChoice.add(Integer.parseInt(selectedZusatz.getText())*-1);
+					Collections.sort(userChoice);
+					allTips.add((ArrayList<Integer>) userChoice.clone());
+					view.tipList.setItems(allTips);
+					anzTips++;
+					//System.out.println(view.tipList.getItems());
+					resetTipField();
+				}else{
+					view.lblStatus.setText("Noch nicht alle zahlen gewählt");
+				}
+			    model.bet += model.tipPrice;
 			}else{
-				view.lblStatus.setText("Noch nicht alle zahlen gewählt");
+				view.lblStatus.setText("Keine weitern Tips mehr möglich!");
 			}
-		    model.bet += model.tipPrice;
 		    updateChoiceProgress();
 		}
 	}
@@ -243,7 +247,7 @@ public class LottoController {
 		 else
 			 view.lblOutOf.setText((anzGew)+" / "+(view.MAXCHOICE+1));
 		 
-		 view.lblTips.setText(""+anzTips);
+		 view.lblTips.setText(anzTips+" / "+model.MAXTIP);
 		 view.lblMoney.setText(model.bet+".- CHF");
 		 
 		 //Tip Button
@@ -280,7 +284,6 @@ public class LottoController {
 		zusatzChoice = false;
 		updateChoiceProgress();
 		updateButtonState();
-		
 	}
 	
 
