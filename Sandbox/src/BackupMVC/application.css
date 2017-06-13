@@ -1,0 +1,128 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+    -fx-background-color:  #af0303;
+    -fx-background-image:url("../media/d.jpg"); 
+    -fx-background-position:bottom;
+     -fx-background-size:cover;
+}
+
+.mytoggle-button:selected {
+    -fx-background-color: #4286f4;
+    -fx-text-fill: #ffffff;
+}
+
+.mytoggle-button {
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+}
+
+
+.zahlenToggles {
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-padding: 2px;
+}
+.zahlenToggles:selected {
+   -fx-background-color: #4286f4;
+    -fx-text-fill: #ffffff;
+}
+.zahlenToggles:disabled {
+	-fx-opacity: 1.0;
+}
+
+
+/*Tip Button bei Ziehung */
+
+.tipButtons {
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-font-size: 10pt;
+    -fx-padding: 2px;
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+}
+.tipButtons:selected {
+    -fx-background-color:rgb(105,202,34);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+.tipButtons:disabled {
+	-fx-opacity: 1.0;
+}
+
+
+.luckyNumbers{
+	-fx-background-color: 
+        linear-gradient(#ffd65b, #e68400),
+        linear-gradient(#ffef84, #f2ba44),
+        linear-gradient(#ffea6a, #efaa22),
+        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 40;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-max-width: 60px;
+    -fx-max-height: 60px;
+}
+.luckyNumbers:disabled {
+	-fx-opacity: 1.0;
+}
+
+
+.table-view{
+	-fx-background-color:transparent ;
+}
+
+
+.tippToggles {
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-padding: 2px;
+}
+.tippToggles:selected {
+   -fx-background-color: #5ec631;
+    -fx-text-fill: #ffffff;
+}
+.tippToggles:disabled {
+	-fx-opacity: 1.0 ;
+}
+
+
+.label{
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 12px;
+	-fx-effect:dropshadow(three-pass-box, black, 30, 0.01, 0, 0); 
+}
+
+.list-view { 
+	-fx-background-color: transparent;
+	-fx-max-width: 200px;
+	-fx-min-width: 200px;
+	-fx-font-size: 10.5pt;
+	-fx-font-weight: bold;
+	-fx-effect:dropshadow(three-pass-box, grey, 30, 0.0001, 0, 0); 
+}
+
+.list-cell{
+	-fx-alignment:center-right;
+}
+
+.list-cell:empty{
+	-fx-opacity:0.0;
+}
